@@ -1,8 +1,10 @@
 package com.example.test;
 
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -10,13 +12,15 @@ import org.testng.annotations.Test;
 import org.testng.Assert;
 
 import com.example.test.pages.LoginPage;
+import com.example.utils.RetryAnalyzer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
+import java.time.Duration;
 
 public class MainTest {
     private WebDriver driver;
+    private FluentWait<WebDriver> wait;
 
     @BeforeClass
     @Parameters("browser")
@@ -32,11 +36,17 @@ public class MainTest {
             // "../driver/geckodriver"));
         }
         driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+        wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(300))
+                .ignoring(ElementNotInteractableException.class);
     }
 
-    @Test
+    // TODO: Configure the timeout globally
+    @Test(timeOut = 30000, retryAnalyzer = RetryAnalyzer.class)
     public void sampleTest() {
-        LoginPage loginPage = new LoginPage(driver);
+
+        LoginPage loginPage = new LoginPage(driver, wait);
         loginPage.openLoginPage("https://practicetestautomation.com/practice-test-login/");
         loginPage.enterUsername("student");
         loginPage.enterPassword("Password123");
