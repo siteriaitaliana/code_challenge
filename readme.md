@@ -1,63 +1,47 @@
-Instruction made using a MAcbook pro
+Test fw created using a Macbook pro.
 
-brew install maven
+- Make sure you have Java sdk and Maven setup
 
-java and sdk installed through the vscode IDE
+- Open the terminal, git checkout and navigate to your project directory
 
-Open the terminal and navigate to your project directory:
+- Make sure you have google chrome installed version 134 as selenium-devtools-v134 chrome driver is for this version
 
-Compile and run the project using Maven:
-mvn clean install
-mvn compile
-mvn clean test
+- Start the Selenium Grid Hub with the following command:
+  `java -jar ./code_challenge/src/test/java/com/example/driver/selenium-server-4.30.0.jar standalone`
+  You can verify the setup by navigating to http://localhost:4444/ui in your browser
 
-(Optional) Run Tests with TestNG:
+- Open the Selenium Grid UI at http://localhost:4444/ui to monitor the test execution.
+  You should see tests running in parallel on both Chrome and Firefox.
 
-If you use TestNG, create a test class and an XML configuration file (testng.xml) to define your test suite. Then, run the tests with:
-mvn test
+- Install node and npm
 
-Make sure you have google chrome installed version 134 as selenium-devtools-v134 and chrome driver are in this version
+- Install Appium
+  `npm install -g appium`
 
-1. Set Up Selenium Grid
-   Start the Selenium Grid Hub
-   Run the following command to start the Selenium Grid Hub:
-   java -jar selenium-server-<version>.jar standalone
-   You can verify the setup by navigating to http://localhost:4444/ui in your browser.
+- Install Appium Doctor, helps verify that all dependencies are correctly installed:
+  `npm install -g appium-doctor`
 
-Verify Parallel Execution
-Open the Selenium Grid UI at http://localhost:4444/ui to monitor the test execution.
-You should see tests running in parallel on both Chrome and Firefox.
+- Run Appium Doctor to check your setup:
+  appium-doctor
 
-Install node and npm
+- Install appium-inspector to inspect Android app elements & selectors
 
-Install Appium
-Install Appium globally using npm:
+- Install Android studio, android sdk and command line tools
 
-appium
-npm install -g appium
+- Ensure that the Android SDK is correctly configured and the ANDROID_HOME and ANDROID_SDK_ROOT environment variables are set.
 
-Install Appium Doctor (Optional)
-Appium Doctor helps verify that all dependencies are correctly installed:
-npm install -g appium-doctor
-Run Appium Doctor to check your setup:
-appium-doctor
+- Start an Android Emulator from Android Studio.
+  Alternatively, start the emulator from the terminal:
+  emulator -avd <emulator_name>
 
-Install Android studio, android sdk and command line tools
+- appium driver install uiautomator2
 
-Ensure that the Android SDK is correctly configured and the ANDROID_HOME and ANDROID_SDK_ROOT environment variables are set.
+- Start Appium Server from the terminal:
+  `appium --log-=level debug`
+  The server will start on http://localhost:4723 by default.
 
-4. Start an Android Emulator
-   Open Android Studio.
-   Go to Tools > Device Manager.
-   Create a new virtual device (e.g., Pixel 5).
-   Start the emulator.
-   Alternatively, start the emulator from the terminal:
-   emulator -avd <emulator_name>
-
-appium driver install uiautomator2
-
-Start Appium Server
-Start the Appium server from the terminal:
-appium
-
-The server will start on http://localhost:4723 by default.
+- Compile and run the project using Maven:
+  `mvn clean install`
+  `mvn compile`
+  `mvn clean test`
+  You should see the 3 test run in parallel (Chrome, Firefox and Android in the Android studio emulator - this test the website using an apk webview app that wraps it, present in the repo and installed each time in the device).
